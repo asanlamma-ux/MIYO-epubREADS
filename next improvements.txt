@@ -1,0 +1,158 @@
+# Novel Reader App — Full Overhaul & Rebuild Prompt
+
+---
+
+## Core Directive
+
+You are performing a complete overhaul of a mobile novel and ebook reader application. All business logic, state management, data processing, and validation must reside on the backend. The frontend is strictly responsible for rendering and user interaction. Never trust or offload logic to the frontend.
+
+Before implementing any feature, research and select the best available packages and dependencies. Briefly justify each choice over its alternatives.
+
+---
+
+## Frontend & UI Baseline Rules
+
+These rules apply globally across the entire app and must never be violated:
+
+- All UI must respect device safe areas — no content, buttons, or navigation elements may be clipped by notches, punch-holes, status bars, or home indicators.
+- The mobile bottom navigation bar must be completely hidden when the user enters the reading space. It must reappear when the user exits.
+- Remove all emoji usage across the entire app. Replace with proper vector icons from a well-maintained icon library.
+- Eliminate all exaggerated or bouncy animations. Transitions must be subtle, intentional, and performant.
+- All interactive elements must meet accessibility standards for contrast ratios and minimum tap target sizes.
+- The UI must be responsive and functional across a range of screen sizes including small low-end phones and tablets.
+- Follow platform-native conventions for gestures, modals, bottom sheets, and navigation patterns.
+- The design must be clean, minimal, and focused on readability. Reduce visual noise throughout.
+
+---
+
+## Critical Bug Fixes
+
+### Translation System
+
+- Remove the external browser redirect entirely.
+- Implement in-app translation using a reliable and well-maintained translation package or API.
+- Translation output must render inline within the reading view without navigating away from the app.
+
+### Reading Progress Persistence
+
+- Implement a persistent store system that saves the user's last read position on every meaningful interaction.
+- Stored data must include the chapter identifier, page or scroll position, and percentage progress through the current chapter.
+- On reopening a book, the app must restore the user's exact last position without prompting unless the user has multiple devices.
+
+### In-Book Search
+
+- Fix the search so it queries only the current chapter by default.
+- Provide an explicit option to expand the search to the full book.
+- Results must display inside the app with highlighted matched terms and navigation controls between results.
+- The search must never redirect to an external view.
+
+### Notes Panel
+
+- Fix the inability to switch between the Highlights and Bookmarks tabs within the notes panel.
+- Each tab must be independently scrollable and accurately populated from stored data.
+
+### Tap-to-Scroll and Page Navigation
+
+- Fix the left and right tap zones so they scroll the content rather than jumping to the next or previous chapter.
+- Implement configurable tap zone behavior inspired by Koodo Reader, including customizable tap regions, scroll step size, and sensitivity.
+- Chapter navigation must only occur through explicit and deliberate user actions.
+
+### In-Book Table of Contents Chapter Redirect
+
+- Fix chapter links that exist within the book content itself, such as a formatted table of contents page inside an EPUB.
+- Tapping any chapter title within the in-book TOC must navigate the user directly to that chapter inside the app.
+- This must work reliably regardless of how the chapter anchor or link is structured in the source file.
+
+### Performance and Resource Usage
+
+- Profile and eliminate all sources of lag, unnecessary re-renders, and memory leaks.
+- Optimize heavily for low-end devices. The app must not cause excessive heat or battery drain.
+- Lazy load chapter content and assets wherever possible.
+- Avoid blocking the main thread during any parsing, loading, or processing task.
+
+### Book Loading and Parsing
+
+- Rewrite the book loading and parsing pipeline from the ground up for efficiency and reliability.
+- All parsing must happen asynchronously on the backend or in a background thread. The frontend receives only structured, pre-processed data ready for rendering.
+- The system must handle large files gracefully without freezing or crashing on low-end hardware.
+
+---
+
+## New Features
+
+### Rescan and Library Import
+
+- Fix the rescan button so it correctly searches the user's Downloads folder, Documents folder, and any user-defined directories.
+- Allow users to add, remove, and manage custom scan directories in Settings.
+- Scanned results must be filtered to supported file formats only.
+
+### Smart Duplicate Detection
+
+- Implement a backend duplicate detection system that distinguishes between a true duplicate and a new volume of the same series.
+- Detection must compare file metadata, title, and content fingerprints rather than relying solely on filename.
+- When a duplicate is detected, prompt the user with a clear confirmation dialog:
+  "This book already appears to already exist in your library. You may import it anyway, which will add it with a numbered suffix, or cancel the import."
+- Never auto-import silently. The user must always confirm.
+
+### Book Long-Press Context Modal
+
+- Triggering a long press on any book in the library must open a modal with the following options:
+  - Delete the book from the library with a confirmation step.
+  - View book information including title, author, description, file size, file format, and import date.
+  - Change or add a book cover image. The system must enforce exactly three accepted aspect ratios with clear visual guidance shown to the user. Reject any image that does not meet the requirements.
+
+### Reading Space Feature Additions
+
+Research, select, and implement the following inside the reading view:
+
+- Text-to-speech with playback controls, speed adjustment, and voice selection.
+- Inline dictionary lookup triggered by tapping or long-pressing a word.
+- Full font customization including family, size, weight, line height, and letter spacing.
+- Theme and reading mode selector including Light, Dark, Sepia, and a user-defined custom color scheme.
+- Reading session statistics displayed optionally, including words read and time spent in the current session.
+- Reading goals, streaks, and a personalized progress system.
+- Sleep timer that pauses or closes the reading session after a user-defined duration.
+- Immersive fullscreen mode that hides all UI chrome including the status bar.
+- Auto-scroll mode with adjustable speed and a clear pause control.
+- A chapter progress indicator with estimated time remaining in the current chapter.
+
+### Settings Enhancements
+
+Add the following to the settings area:
+
+- Local backup and restore for all reading data, bookmarks, highlights, and progress.
+- Application language selector.
+- Notification preferences for reading reminders and streak alerts.
+- Storage management view showing total library size with the ability to clear cache.
+- Default reading preferences that apply to all newly opened books.
+- Import and export of library metadata.
+
+---
+
+## Security
+
+Implement the following across the entire application:
+
+- Sanitize all user-facing inputs including search queries, notes, and folder paths.
+- Sandbox all parsed book content to prevent script injection through malicious EPUB or HTML content embedded in book files.
+- Validate all imported files by type signature, not just extension, and enforce a maximum file size limit.
+- Encrypt sensitive local data at rest including notes, bookmarks, highlights, and reading progress.
+- Rate-limit and guard all outbound API calls including translation and dictionary lookups.
+- Perform integrity checks on imported book files before adding them to the library.
+
+---
+
+## Dependency Research Requirement
+
+For every major feature and system in this prompt, you must research the available options, select the most stable, performant, and actively maintained package or solution, and provide a brief justification for why it was chosen over the alternatives. Do not use a dependency simply because it is familiar or popular. Choose based on suitability for this use case.
+
+
+also add this system inside reader space where i can long press on a text and select and there will be a list of option where i can choose to bookmark it, add terms, underline it and more. also blue light filter inside settings doesnt seem to work. add google login option to unlock auto translations, with normal and advanced toggleable options inside settings
+
+you can also add your own improvements, new fearures and innovative tools.
+
+also add a UI to successfull book imports.
+
+additional fix: Fix Eas Cli and configuration, make sure eas command must work.
+
+make sure app will never lag or glitches, feels laggy. Improve various aspects as well and add more updates
